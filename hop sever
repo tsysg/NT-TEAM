@@ -1,0 +1,155 @@
+-- Services
+local TeleportService = game:GetService("TeleportService")
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+
+local LocalPlayer = Players.LocalPlayer
+local PlaceId = game.PlaceId
+local JobId = game.JobId
+
+-- Create GUI
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "SupPreniumGui"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+
+-- Main Frame (Dark / Neon Modern Design)
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Size = UDim2.new(0, 320, 0, 190)
+MainFrame.Position = UDim2.new(0.5, -160, 0.5, -95)
+MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+MainFrame.BorderSizePixel = 0
+MainFrame.Active = true
+MainFrame.Draggable = true
+MainFrame.Parent = ScreenGui
+
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 12)
+UICorner.Parent = MainFrame
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(0, 170, 255)
+UIStroke.Thickness = 2
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = MainFrame
+
+-- Title Header (SUP PRENIUM)
+local Title = Instance.new("TextLabel")
+Title.Name = "Title"
+Title.Size = UDim2.new(1, 0, 0, 35)
+Title.Position = UDim2.new(0, 0, 0, 10)
+Title.BackgroundTransparency = 1
+Title.Text = "SUP PRENIUM"
+Title.TextColor3 = Color3.fromRGB(0, 213, 255)
+Title.TextSize = 22
+Title.Font = Enum.Font.GothamBold
+Title.Parent = MainFrame
+
+-- Subtitle (NT TEAM - Chữ nhỏ bên dưới)
+local Subtitle = Instance.new("TextLabel")
+Subtitle.Name = "Subtitle"
+Subtitle.Size = UDim2.new(1, 0, 0, 15)
+Subtitle.Position = UDim2.new(0, 0, 0, 42)
+Subtitle.BackgroundTransparency = 1
+Subtitle.Text = "NT TEAM"
+Subtitle.TextColor3 = Color3.fromRGB(120, 120, 140)
+Subtitle.TextSize = 10
+Subtitle.Font = Enum.Font.GothamBold
+Subtitle.Parent = MainFrame
+
+-- Hop Button
+local HopButton = Instance.new("TextButton")
+HopButton.Name = "HopButton"
+HopButton.Size = UDim2.new(0.85, 0, 0, 42)
+HopButton.Position = UDim2.new(0.075, 0, 0.46, 0)
+HopButton.BackgroundColor3 = Color3.fromRGB(0, 140, 255)
+HopButton.Text = "SERVER HOP (1 PLAYER)"
+HopButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+HopButton.TextSize = 12
+HopButton.Font = Enum.Font.GothamBold
+HopButton.AutoButtonColor = false
+HopButton.Parent = MainFrame
+
+local ButtonCorner = Instance.new("UICorner")
+ButtonCorner.CornerRadius = UDim.new(0, 8)
+ButtonCorner.Parent = HopButton
+
+-- Status Text
+local StatusLabel = Instance.new("TextLabel")
+StatusLabel.Name = "StatusLabel"
+StatusLabel.Size = UDim2.new(1, 0, 0, 20)
+StatusLabel.Position = UDim2.new(0, 0, 0.8, 0)
+StatusLabel.BackgroundTransparency = 1
+StatusLabel.Text = "Sẵn sàng"
+StatusLabel.TextColor3 = Color3.fromRGB(160, 160, 160)
+StatusLabel.TextSize = 11
+StatusLabel.Font = Enum.Font.Gotham
+StatusLabel.Parent = MainFrame
+
+-- Hover Effects
+HopButton.MouseEnter:Connect(function()
+	TweenService:Create(HopButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(0, 180, 255)}):Play()
+end)
+
+HopButton.MouseLeave:Connect(function()
+	TweenService:Create(HopButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(0, 140, 255)}):Play()
+end)
+
+-- Thuật toán Server Hop Chuẩn 1 Người
+local function serverHopSinglePlayer()
+	StatusLabel.Text = "Đang quét danh sách server..."
+	StatusLabel.TextColor3 = Color3.fromRGB(255, 200, 0)
+
+	local success, result = pcall(function()
+		local url = "https://games.roblox.com/v1/games/" .. PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
+		return game:HttpGet(url)
+	end)
+	
+	if success and result then
+		local data = HttpService:JSONDecode(result)
+		local servers = {}
+		
+		if data and data.data then
+			for _, server in ipairs(data.data) do
+				-- Lọc chính xác server có đúng 1 người chơi và không phải server hiện tại
+				if type(server) == "table" and server.playing == 1 and server.id ~= JobId then
+					table.insert(servers, server.id)
+				end
+			end
+		end
+		
+		if #servers > 0 then
+			local targetServer = servers[math.random(1, #servers)]
+			StatusLabel.Text = "Đã tìm thấy! Đang chuyển server..."
+			StatusLabel.TextColor3 = Color3.fromRGB(0, 255, 120)
+			TeleportService:TeleportToPlaceInstance(PlaceId, targetServer, LocalPlayer)
+		else
+			StatusLabel.Text = "Không có server 1 người, tìm server ít nhất..."
+			StatusLabel.TextColor3 = Color3.fromRGB(255, 150, 0)
+			
+			-- Dự phòng: Chuyển sang server bất kỳ còn trống chỗ
+			local allServers = {}
+			if data and data.data then
+				for _, server in ipairs(data.data) do
+					if type(server) == "table" and server.playing < server.maxPlayers and server.id ~= JobId then
+						table.insert(allServers, server.id)
+					end
+				end
+			end
+			if #allServers > 0 then
+				TeleportService:TeleportToPlaceInstance(PlaceId, allServers[math.random(1, #allServers)], LocalPlayer)
+			else
+				StatusLabel.Text = "Thất bại: Không có server phù hợp!"
+				StatusLabel.TextColor3 = Color3.fromRGB(255, 60, 60)
+			end
+		end
+	else
+		StatusLabel.Text = "Lỗi kết nối tới Roblox API!"
+		StatusLabel.TextColor3 = Color3.fromRGB(255, 50, 50)
+	end
+end
+
+-- Event Click
+HopButton.MouseButton1Click:Connect(serverHopSinglePlayer)
