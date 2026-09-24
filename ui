@@ -28253,6 +28253,79 @@ end
 return aa end function a.B()
 return function(aa,ab)
 return{
+Obsidian={
+Name="Obsidian",
+
+-- High-contrast tactical shell with ember orange energy.
+Accent=Color3.fromHex"#FF5A1F",
+Dialog=Color3.fromHex"#111419",
+Outline=Color3.fromHex"#343B46",
+Text=Color3.fromHex"#F4F7FB",
+Placeholder=Color3.fromHex"#7D8796",
+Background=Color3.fromHex"#080A0D",
+Button=Color3.fromHex"#FF5A1F",
+Icon=Color3.fromHex"#AAB3C0",
+Toggle=Color3.fromHex"#FF5A1F",
+Slider=Color3.fromHex"#FF7A1A",
+Checkbox=Color3.fromHex"#FF5A1F",
+Primary=Color3.fromHex"#FF5A1F",
+
+WindowBackground=Color3.fromHex"#0C0F13",
+WindowShadow=Color3.fromHex"#000000",
+WindowTopbarTitle=Color3.fromHex"#FFFFFF",
+WindowTopbarAuthor=Color3.fromHex"#7D8796",
+WindowTopbarIcon=Color3.fromHex"#FF6A24",
+WindowTopbarButtonIcon=Color3.fromHex"#9CA6B4",
+WindowSearchBarBackground=Color3.fromHex"#151920",
+
+PanelBackground=Color3.fromHex"#11151B",
+PanelBackgroundTransparency=0,
+
+TabBackground=Color3.fromHex"#0C0F13",
+TabBackgroundHover=Color3.fromHex"#1B2028",
+TabBackgroundHoverTransparency=0,
+TabBackgroundActive=Color3.fromHex"#FF5A1F",
+TabBackgroundActiveTransparency=0,
+TabText=Color3.fromHex"#C6CDD7",
+TabTextTransparency=0.28,
+TabTextTransparencyActive=0,
+TabTitle=Color3.fromHex"#687383",
+TabIcon=Color3.fromHex"#AAB3C0",
+TabIconTransparency=0.16,
+TabIconTransparencyActive=0,
+TabBorder=Color3.fromHex"#FF8A47",
+TabBorderTransparency=0.9,
+TabBorderTransparencyActive=0.15,
+
+ElementBackground=Color3.fromHex"#171B22",
+ElementBackgroundTransparency=0,
+ElementBackgroundHover=Color3.fromHex"#20262F",
+ElementTitle=Color3.fromHex"#F4F7FB",
+ElementDesc=Color3.fromHex"#8D98A8",
+ElementIcon=Color3.fromHex"#FF7138",
+
+SectionBox=Color3.fromHex"#161B22",
+SectionBoxTransparency=0,
+SectionBoxBorder=Color3.fromHex"#343B46",
+SectionBoxBorderTransparency=0.28,
+SectionBoxBackground=Color3.fromHex"#0F1318",
+SectionBoxBackgroundTransparency=0,
+
+SearchBarBorder=Color3.fromHex"#3B4450",
+SearchBarBorderTransparency=0.2,
+LabelBackground=Color3.fromHex"#20262F",
+LabelBackgroundTransparency=0,
+ProgressBarTrack=Color3.fromHex"#2B323C",
+ProgressBarTrackTransparency=0,
+Tooltip=Color3.fromHex"#F4F7FB",
+TooltipText=Color3.fromHex"#090B0E",
+Notification=Color3.fromHex"#151A21",
+Notification2=Color3.fromHex"#FF5A1F",
+Notification2Transparency=0.08,
+NotificationBorder=Color3.fromHex"#3C4653",
+NotificationBorderTransparency=0.15,
+},
+
 Blush={
 Name="Blush",
 
@@ -37344,7 +37417,7 @@ BackgroundImageTransparency=av.BackgroundImageTransparency or 0,
 ShadowTransparency=av.ShadowTransparency or 0.6,
 User=av.User or{},
 Footer=av.Footer or{},
-Topbar=av.Topbar or{Height=58,ButtonsType="Default"},
+Topbar=av.Topbar or{Height=62,ButtonsType="Default"},
 
 Size=av.Size,
 
@@ -37355,22 +37428,22 @@ TopBarButtonIconSize=av.TopBarButtonIconSize,
 
 ToggleKey=av.ToggleKey,
 ElementsRadius=av.ElementsRadius,
-Radius=av.Radius or 20,
+Radius=av.Radius or 10,
 Transparent=av.Transparent or false,
 HideSearchBar=av.HideSearchBar~=false,
 ScrollBarEnabled=av.ScrollBarEnabled or false,
-SideBarWidth=av.SideBarWidth or 188,
+SideBarWidth=av.SideBarWidth or 210,
 Acrylic=av.Acrylic or false,
 NewElements=av.NewElements~=false,
 IgnoreAlerts=av.IgnoreAlerts or false,
 HidePanelBackground=av.HidePanelBackground or false,
 AutoScale=av.AutoScale~=false,
 OpenButton=av.OpenButton,
-DragFrameSize=132,
+DragFrameSize=180,
 
 Position=UDim2.new(0.5,0,0.5,0),
-UICorner=20,
-UIPadding=16,
+UICorner=10,
+UIPadding=14,
 UIElements={},
 CanDropdown=true,
 Closed=false,
@@ -37392,7 +37465,7 @@ OnDestroyCallback=nil,
 
 IsPC=false,
 
-Gap=7,
+Gap=6,
 
 TopBarButtons={},
 AllElements={},
@@ -37409,8 +37482,8 @@ aw.UICorner=aw.Radius
 aw.TopBarButtonIconSize=aw.TopBarButtonIconSize or(aw.Topbar.ButtonsType=="Mac"and 11 or 16)
 
 aw.ElementConfig={
-UIPadding=(aw.NewElements and 12 or 13),
-UICorner=aw.ElementsRadius or(aw.NewElements and 18 or 16),
+UIPadding=(aw.NewElements and 11 or 12),
+UICorner=aw.ElementsRadius or(aw.NewElements and 8 or 7),
 }
 
 local ax=aw.Size or UDim2.new(0,580,0,460)
@@ -37422,7 +37495,7 @@ math.clamp(ax.Y.Offset,aw.MinSize.Y,aw.MaxSize.Y)
 )
 
 if aw.Topbar=={}then
-aw.Topbar={Height=52,ButtonsType="Default"}
+aw.Topbar={Height=62,ButtonsType="Default"}
 end
 
 if not ai:IsStudio()and aw.Folder and writefile then
@@ -38630,9 +38703,9 @@ end
 task.wait(0.06)
 aw.Closed=false
 
-aw.UIElements.Main.Size=UDim2.new(aw.Size.X.Scale,aw.Size.X.Offset,0,120)
+aw.UIElements.Main.Size=UDim2.new(aw.Size.X.Scale,aw.Size.X.Offset,0,80)
 
-ap(aw.UIElements.Main,0.55,{
+ap(aw.UIElements.Main,0.32,{
 
 Size=aw.Size,
 },Enum.EasingStyle.Quint,Enum.EasingDirection.Out):Play()
@@ -38684,8 +38757,8 @@ Enum.EasingDirection.Out
 
 ap(
 r,
-0.45,
-{Size=UDim2.new(0,aw.DragFrameSize,0,4),ImageTransparency=0.8},
+0.28,
+{Size=UDim2.new(0,aw.DragFrameSize,0,4),ImageTransparency=0.5},
 Enum.EasingStyle.Exponential,
 Enum.EasingDirection.Out
 ):Play()
@@ -39825,7 +39898,7 @@ aa.Themes=a.load'B'(aa,as)
 
 as.Themes=aa.Themes
 
-aa:SetTheme"Blush"
+aa:SetTheme"Obsidian"
 aa:SetLanguage(as.Language)
 
 function aa.CreateWindow(az,aA)
@@ -39853,7 +39926,7 @@ end
 
 local b=true
 
-local d=aa.Themes[aA.Theme or"Blush"]
+local d=aa.Themes[aA.Theme or"Obsidian"]
 
 
 as.SetTheme(d)
