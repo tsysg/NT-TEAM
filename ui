@@ -39898,7 +39898,7 @@ aa.Themes=a.load'B'(aa,as)
 
 as.Themes=aa.Themes
 
-aa:SetTheme"Obsidian"
+aa:SetTheme"Blush"
 aa:SetLanguage(as.Language)
 
 function aa.CreateWindow(az,aA)
@@ -39926,7 +39926,7 @@ end
 
 local b=true
 
-local d=aa.Themes[aA.Theme or"Obsidian"]
+local d=aa.Themes[aA.Theme or"Blush"]
 
 
 as.SetTheme(d)
