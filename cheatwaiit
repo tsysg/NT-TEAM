@@ -1,1 +1,43 @@
+--[[
+  NT-TEAM Loader
+  - Ride A Pet  -> rideapet
+  - Steal An Egg -> stealaneggg.lua
+]]
 
+local PlaceId = game.PlaceId
+
+local SCRIPTS = {
+    -- Ride A Pet
+    [124216119978534] = {
+        name = "Ride A Pet",
+        url  = "https://raw.githubusercontent.com/tsysg/NT-TEAM/refs/heads/main/rideapet",
+    },
+    -- Steal An Egg
+    [107778070777162] = {
+        name = "Steal An Egg",
+        url  = "https://raw.githubusercontent.com/tsysg/NT-TEAM/refs/heads/main/stealaneggg.lua",
+    },
+}
+
+local info = SCRIPTS[PlaceId]
+if not info then
+    warn("[Waiit Hub] Game khong duoc ho tro. PlaceId = " .. tostring(PlaceId))
+    return
+end
+
+print("[Waiit Hub] Dang load: " .. info.name)
+
+local ok, err = pcall(function()
+    local src = game:HttpGet(info.url)
+    local fn, compileErr = loadstring(src)
+    if not fn then
+        error("loadstring fail: " .. tostring(compileErr))
+    end
+    fn()
+end)
+
+if not ok then
+    warn("[Waiit Hub] Loi load " .. info.name .. ": " .. tostring(err))
+else
+    print("[Waiit Hub] Da load xong: " .. info.name)
+end
